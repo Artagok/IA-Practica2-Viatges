@@ -1,0 +1,798 @@
+; Fri May 25 23:15:31 CEST 2018
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(single-slot esAireLliure
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teRampaDiscapacitats
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot esPotFerFoto
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot estrelles
+		(type SYMBOL)
+		(allowed-values una dues tres quatre cinc)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot altaVelocitat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esVegetaria
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teBaca
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot tePiscina
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomTransport
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot teZonaFumadors
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teHospital
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esParlaAngles
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot transport
+		(type INSTANCE)
+;+		(allowed-classes Transport)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot qualitat
+		(type SYMBOL)
+		(allowed-values baixa mijta alta)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomAllotjament
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot potsLlogarMaterial
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot obertMatinada
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot minimEdat
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot teRestaurant
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomEsport
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teBotigues
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot teActivitat
+		(type INSTANCE)
+;+		(allowed-classes Activitat)
+		(create-accessor read-write))
+	(single-slot ofereixLlencols
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot preu
+		(type INTEGER)
+		(range 0 300)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot piscina
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teSuperMercat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esCentric
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot productes
+		(type SYMBOL)
+		(allowed-values roba menjar artesania)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teParking
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teDutxes
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esCapital
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esHistorica
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot de
+		(type SYMBOL)
+		(allowed-values formatge vi embotit cervesa)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teWifi
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot esLlogat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot rampaDiscapacitats
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esPotDormir
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot tipusMusica
+		(type SYMBOL)
+		(allowed-values pop metal comercial electronica)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot indexPerilllositat
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teClasseBusiness
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot cost
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teLavaboPrivat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot artistic
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot quantVal
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot tipus
+		(type SYMBOL)
+		(allowed-values muntanya mar)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot y
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot x
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomActivitat
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esMassiu
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Poblacions
+		(type INSTANCE)
+;+		(allowed-classes Poblacio)
+		(cardinality 1 2)
+		(create-accessor read-write))
+	(single-slot tePlatja
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot categoria
+		(type SYMBOL)
+		(allowed-values art historia ciencia alternatiu)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot teCasino
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teAnimals
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esGratuit
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot quinTipus
+		(type SYMBOL)
+		(allowed-values compartida individual luxe)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot historic
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomPoblacio
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot preuLloguer
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot serveiRestaurant
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teAparcament
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot banderaBlava
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teDiscoteca
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot teAllotjament
+		(type INSTANCE)
+;+		(allowed-classes Allotjament)
+		(create-accessor read-write))
+	(single-slot risc
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Poblacio
+	(is-a USER)
+	(role concrete)
+	(multislot teActivitat
+		(type INSTANCE)
+;+		(allowed-classes Activitat)
+		(create-accessor read-write))
+	(single-slot nomPoblacio
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot y
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot teAllotjament
+		(type INSTANCE)
+;+		(allowed-classes Allotjament)
+		(create-accessor read-write))
+	(multislot transport
+		(type INSTANCE)
+;+		(allowed-classes Transport)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot x
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esParlaAngles
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Ciutat
+	(is-a Poblacio)
+	(role concrete)
+	(single-slot esHistorica
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot tePlatja
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esCapital
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Poble
+	(is-a Poblacio)
+	(role concrete)
+	(single-slot tipus
+		(type SYMBOL)
+		(allowed-values muntanya mar)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teHospital
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teSuperMercat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot indexPerilllositat
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Rural
+	(is-a Poblacio)
+	(role concrete)
+	(single-slot quinTipus
+		(type SYMBOL)
+		(allowed-values compartida individual luxe)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Allotjament
+	(is-a USER)
+	(role concrete)
+	(single-slot preu
+		(type INTEGER)
+		(range 0 300)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esCentric
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot nomAllotjament
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Hotel
+	(is-a Allotjament)
+	(role concrete)
+	(single-slot esCentric
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot estrelles
+		(type SYMBOL)
+		(allowed-values una dues tres quatre cinc)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Hostal
+	(is-a Allotjament)
+	(role concrete)
+	(single-slot obertMatinada
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teLavaboPrivat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot ofereixLlencols
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esCentric
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Camping
+	(is-a Allotjament)
+	(role concrete)
+	(single-slot teParking
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot tePiscina
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teDiscoteca
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teRestaurant
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Transport
+	(is-a USER)
+	(role concrete)
+	(single-slot teWifi
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot quantVal
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomTransport
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Terra
+	(is-a Transport)
+	(role concrete)
+	(single-slot teRampaDiscapacitats
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Tren
+	(is-a Terra)
+	(role concrete)
+	(single-slot teRampaDiscapacitats
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teWifi
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teZonaFumadors
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot serveiRestaurant
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot altaVelocitat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esPotDormir
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Cotxe
+	(is-a Terra)
+	(role concrete)
+	(single-slot teBaca
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot preuLloguer
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot esLlogat
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Bus
+	(is-a Terra)
+	(role concrete)
+	(single-slot teRampaDiscapacitats
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teWifi
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Mar
+	(is-a Transport)
+	(role concrete))
+
+(defclass Vaixell
+	(is-a Mar)
+	(role concrete)
+	(single-slot teBotigues
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teCasino
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teWifi
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot piscina
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teAparcament
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Aire
+	(is-a Transport)
+	(role concrete))
+
+(defclass Avio
+	(is-a Aire)
+	(role concrete)
+	(single-slot teClasseBusiness
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot teWifi
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Activitat
+	(is-a USER)
+	(role concrete)
+	(single-slot minimEdat
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot cost
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nomActivitat
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Cultura
+	(is-a Activitat)
+	(role concrete)
+	(single-slot esGratuit
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Museu
+	(is-a Cultura)
+	(role concrete)
+	(single-slot esPotFerFoto
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot categoria
+		(type SYMBOL)
+		(allowed-values art historia ciencia alternatiu)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Monument
+	(is-a Cultura)
+	(role concrete)
+	(single-slot historic
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot artistic
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esMassiu
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Oci
+	(is-a Activitat)
+	(role concrete))
+
+(defclass Discoteca
+	(is-a Oci)
+	(role concrete)
+	(single-slot tipusMusica
+		(type SYMBOL)
+		(allowed-values pop metal comercial electronica)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Mercat
+	(is-a Oci)
+	(role concrete)
+	(single-slot esAireLliure
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot productes
+		(type SYMBOL)
+		(allowed-values roba menjar artesania)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Gastronomia
+	(is-a Activitat)
+	(role concrete)
+	(single-slot esVegetaria
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Cuina+Local
+	(is-a Gastronomia)
+	(role concrete)
+	(single-slot qualitat
+		(type SYMBOL)
+		(allowed-values baixa mijta alta)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Tasteig
+	(is-a Gastronomia)
+	(role concrete)
+	(single-slot de
+		(type SYMBOL)
+		(allowed-values formatge vi embotit cervesa)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Natura
+	(is-a Activitat)
+	(role concrete))
+
+(defclass Platja
+	(is-a Natura)
+	(role concrete)
+	(single-slot banderaBlava
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Muntanya
+	(is-a Natura)
+	(role concrete)
+	(single-slot risc
+		(type INTEGER)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Parc+Natural
+	(is-a Natura)
+	(role concrete)
+	(single-slot teAnimals
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Esport
+	(is-a Activitat)
+	(role concrete)
+	(single-slot potsLlogarMaterial
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Caiac
+	(is-a Esport)
+	(role concrete))
+
+(defclass Escalada
+	(is-a Esport)
+	(role concrete))
+
+(defclass Esqui
+	(is-a Esport)
+	(role concrete))
+
+(defclass Submarinisme
+	(is-a Esport)
+	(role concrete))
+
+(defclass Surf
+	(is-a Esport)
+	(role concrete))
