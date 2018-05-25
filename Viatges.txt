@@ -809,6 +809,7 @@
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
+(definstances instancies
 ([Viatges_Class0] of  Museu
 
 	(categoria art)
@@ -1517,7 +1518,7 @@
 
 	(cost 15)
 	(minimEdat 18)
-	(nomActivitat "CaÃ§a Perdals")
+	(nomActivitat "CaÃƒÂ§a Perdals")
 	(teAnimals TRUE))
 
 ([Viatges_Class61] of  Escalada
@@ -1792,6 +1793,7 @@
 	(teAnimals TRUE))
 )
 
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1846,10 +1848,11 @@
 	(slot dies_viat (type INTEGER)(default -1))
 	(slot diners (type INTEGER)(default -1))
 	(slot tipov (type SYMBOL)(default desconocido))
-    (slot posee_vehiculo (type SYMBOL)(default desconocido))
 )
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;UTILS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  
 ;;; Pregunta general
@@ -1859,31 +1862,12 @@
 	?respuesta
 )
 
-;;; Obtiene una respuesta de entre un conjunto de respuestas posibles
-(deffunction MAIN::pregunta-opciones (?question $?allowed-values)
-   (printout t ?question)
-   (bind ?answer (read))
-   (while (not (member ?answer ?allowed-values)) do
-      (printout t ?question)
-      (bind ?answer (read))
-   )
-   ?answer
-)
-
-;;; Funcion para hacer una pregunta de tipo si/no
-(deffunction MAIN::pregunta-si-no (?question)
-   (bind ?response (pregunta-opciones ?question S N))
-   (if (eq ?response S)
-       then TRUE
-       else FALSE)
-)
-
 ;;; Funcion para hacer una pregunta numerica-univalor
 (deffunction MAIN::pregunta-numerica (?pregunta ?rangini ?rangfi)
- (format t "%s (Des de %d fins a %d) " ?pregunta ?rangini ?rangfi)
+ (format t "%s (De %d hasta %d) " ?pregunta ?rangini ?rangfi)
  (bind ?respuesta (read))
  (while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
-	 (format t "%s (Des de %d fins a %d) " ?pregunta ?rangini ?rangfi)
+	 (format t "%s (De %d hasta %d) " ?pregunta ?rangini ?rangfi)
 	 (bind ?respuesta (read))
  )
  ?respuesta
@@ -1897,56 +1881,56 @@
 					 (bind ?linea (format nil "  %d. %s" ?var-index ?var))
 					 (printout t ?linea crlf)
 	 )
-	 (bind ?respuesta (pregunta-numerica "Escull una opció:" 1 (length$ ?valores-posibles)))
+	 (bind ?respuesta (pregunta-numerica "Escoge una opcion:" 1 (length$ ?valores-posibles)))
  ?respuesta
 )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;START
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defrule initialRule "Regla inicial"
    	(declare (salience 10))
    	=>
-    (printout t "******************************************************************************************************")
-    (printout t crlf)
-    (printout t "                       S I S T E M A   E X P E R T   E N   V I A T G E S")
-    (printout t crlf) 
-    (printout t "******************************************************************************************************")
-    (printout t crlf)
-   	(printout t "Benvingut al Sistema Expert en Viatges!")
+   	(printout t"----------------------------------------------------------" crlf)
+     	(printout t"          Busqueda de piso                              " crlf)
+   	(printout t"----------------------------------------------------------" crlf)
+     	(printout t crlf)
+   	(printout t"Ã‚Â¡Bienvenido! A continuacion se le formularan una serie de preguntas para poder recomendarle un piso adecuada a sus preferencias." crlf)
    	(printout t crlf)
-    (printout t "Se li formularan unes preguntes per conèixer millor el seu perfil i preparar un viatge que s'adapti el màxim possible als seus gustos i necessitats")
-    (printout t crlf)
     (focus recopilacion-usuario)
 
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;PREGUNTES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;Regla que establece el nombre del usuario
-(defrule recopilacion-usuario::preguntaNombre "Estableix el nom d'usuari"
+(defrule recopilacion-usuario::preguntaNombre "Establece el nombre del usuario"
   (not (Usuario))
   =>
-  (bind ?name (pregunta-general "Quin és el seu nom? "))
+  (bind ?name (pregunta-general "Cual es su nombre? "))
 	(assert (Usuario (nombre ?name)))
 )
 
 ;;;Regla que establece la edad del usuario
-(defrule recopilacion-usuario::establecer-edad "Estableix l'edat de l'usuari"
+(defrule recopilacion-usuario::establecer-edad "Establece la edad del usuario"
 	?g <- (Usuario (edad ?edad))
 	(test (< ?edad 0))
 	=>
-	(bind ?edad (pregunta-numerica "Quina edat té? " 0 100))
+	(bind ?edad (pregunta-numerica "Â¿Cual es su edad? " 0 100))
 	(modify ?g (edad ?edad))
 )
 
 
 ;;;Regla que establece la tipologia del usuario
-(defrule recopilacion-usuario::establecer-tipo "estableix el tipus d'usuari"
+(defrule recopilacion-usuario::establecer-tipo "establece la tipologia del usuario"
 	?g <-(Usuario (tipo ?tipo))
 	(test (eq ?tipo desconocido))
 	=>
-	(bind ?i (pregunta-indice "De quin tipus és el grup que realitzarà el viatge?" (create$ "Parella" "Família" "Grup d'amics" "Grup de feina" "Individual")))
+	(bind ?i (pregunta-indice "De quin tipo es el grup per a aquest viatge que vols fer?" (create$ "Parella" "Familia" "Grup d'amics" "Grup de feina" "Individu")))
 	(if (eq ?i 1)then
 		(modify ?g (tipo pareja) )
 	)
@@ -1964,7 +1948,7 @@
 	)
 )
 
-
+;;;Regla que establece la edad del usuario
 (defrule recopilacion-usuario::establecer-dias "Establir durant quants dies es vol viatjar"
 	?g <- (Usuario (dies_viat ?dies))
 	(test (< ?dies 0))
@@ -1974,22 +1958,22 @@
 )
 
 
-
+;;;Regla que establece la edad del usuario
 (defrule recopilacion-usuario::establecer-pasta "Establir quanta pasta es vol gastar"
 	?g <- (Usuario (diners ?d))
 	(test (< ?d 0))
 	=>
-	(bind ?d (pregunta-numerica "Quants diners et vols gastar? " 100 20000))
+	(bind ?d (pregunta-numerica "Quants diners et vols gastar? " 100 5000))
 	(modify ?g (diners ?d))
 )
 
-
-(defrule recopilacion-usuario::establecer-tipoviaje "estableix la tipologia del viatge"
+;;;Regla que establece la tipologia del usuario
+(defrule recopilacion-usuario::establecer-tipoviaje "establece la tipologia del viaje"
 	?g <-(Usuario (tipov ?tipo))
 	(test (eq ?tipo desconocido))
 	=>
-	(bind ?i (pregunta-indice "Com li agradaria que fos aquest viatge?" (create$ "Cultural" "Esports" "Romàntic" "Relaxant" "És un viatje per feina" "Festa/Diversió")))
-	(if (eq ?i 1)then   
+	(bind ?i (pregunta-indice "Com t'agradaria que fos aquest viatge'?" (create$ "Cultural" "d'Esports" "Romantic" "Relaxant" "Es un viatje de feina")))
+	(if (eq ?i 1)then
 		(modify ?g (tipov cultural) )
 	)
 	else (if (eq ?i 2)then
@@ -2004,16 +1988,73 @@
 	else (if (eq ?i 5)then
 		(modify ?g (tipov feina) )
 	)
-    else (if (eq ?i 6)then
-        (modify ?g (tipov feina) )
-	)
 )
 
-
-(defrule recopilacion-usuario::establecer-vehiculo "Estableix si l'usuari vol usar el seu prop vehícle"
-	?g <- (Usuario (posee_vehiculo ?v))
-	(test (eq ?v desconocido))
+;;;Regla para pasar al modulo de recopilacion-preferencias
+(defrule recopilacion-usuario::inicia-preferencias "Cambia de modulo para preguntar por preferencias"
+	(declare (salience -10))
 	=>
-	(bind ?v (pregunta-si-no "Utilitzarà el seu propi vehícle per desplaçar-se? [S = Sí | N = No] " ))
-	(modify ?g (posee_vehiculo ?v))
+	(focus recopilacion-preferencias)
 )
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;PREFERENCIES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;Regla para pasar al modulo de procesado
+(defrule recopilacion-preferencias::inicia-procesado "Da por acabada la fase de preguntar al usuario"
+	(declare (salience -10))
+	=>
+	(focus procesado)
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;PROCESSAT
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;Regla que inicia el modulo de procesado
+(defrule procesado::inicio
+	(declare (salience 10))
+	=>
+	(printout t "Processant dades... Esperi un moment siusplau." crlf)
+)
+
+
+;;;Regla que cambia de modulo para generar la solucion
+(defrule procesado::genera_solucion "cambia de modulo"
+	(declare (salience -10))
+	=>
+	(printout t "Generant solucio..." crlf)
+	(focus generacion_sol)
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;GENERAR SOLUCIO
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;Regla para pasar a mostrar resultados al usuario
+	(defrule generacion_sol::muestra_resultado
+		(declare (salience -10))
+			=>
+		(focus mostrar_resultados)
+		)
+		
+		
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ENSENYA RESULTATS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+
+
+
