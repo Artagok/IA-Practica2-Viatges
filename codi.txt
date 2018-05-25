@@ -1518,7 +1518,7 @@
 
 	(cost 15)
 	(minimEdat 18)
-	(nomActivitat "Caça Perdals")
+	(nomActivitat "CaÃ§a Perdals")
 	(teAnimals TRUE))
 
 ([Viatges_Class61] of  Escalada
@@ -1795,7 +1795,96 @@
 
 )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Modulos
+
+;;;modulo MAIN
+(defmodule MAIN (export ?ALL))
+
+;;;modulo de recopilacion de los datos del usuario
+(defmodule recopilacion-usuario
+	(import MAIN ?ALL)
+	(export ?ALL)
+)
+
+;;;modulo de recopilacion de las preferencias del usuario
+(defmodule recopilacion-preferencias
+	(import MAIN ?ALL)
+	(import recopilacion-usuario deftemplate ?ALL)
+	(export ?ALL)
+)
+
+;;;modulo para procesar los datos y elegir las viviendas
+(defmodule procesado
+	(import MAIN ?ALL)
+	(import recopilacion-usuario deftemplate ?ALL)
+	(import recopilacion-preferencias deftemplate ?ALL)
+	(export ?ALL)
+)
+
+;;;modulo para hacer operaciones extra a las viviendas que han sobrevivido a la criba
+(defmodule generacion_sol
+	(import MAIN ?ALL)
+	(export ?ALL)
+)
+
+;;;modulo para mostrar los resultados al usuario
+(defmodule mostrar_resultados
+	(import MAIN ?ALL)
+	(export ?ALL)
+)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+(deftemplate MAIN::Usuario
+	(slot nombre (type STRING))
+	(slot edad (type INTEGER)(default -1))
+	(slot tipo (type SYMBOL)(default desconocido))
+	(slot dies_viat (type INTEGER)(default -1))
+	(slot diners (type INTEGER)(default -1))
+	(slot tipov (type SYMBOL)(default desconocido))
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ 
+;;; Pregunta general
+(deffunction MAIN::pregunta-general (?pregunta)
+	(format t "%s" ?pregunta)
+	(bind ?respuesta (read))
+	?respuesta
+)
+
+;;; Funcion para hacer una pregunta numerica-univalor
+(deffunction MAIN::pregunta-numerica (?pregunta ?rangini ?rangfi)
+ (format t "%s (De %d hasta %d) " ?pregunta ?rangini ?rangfi)
+ (bind ?respuesta (read))
+ (while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
+	 (format t "%s (De %d hasta %d) " ?pregunta ?rangini ?rangfi)
+	 (bind ?respuesta (read))
+ )
+ ?respuesta
+)
+
+;;; Funcion para hacer pregunta con indice de respuestas posibles
+(deffunction MAIN::pregunta-indice (?pregunta $?valores-posibles)
+	 (bind ?linea (format nil "%s" ?pregunta))
+	 (printout t ?linea crlf)
+	 (progn$ (?var ?valores-posibles)
+					 (bind ?linea (format nil "  %d. %s" ?var-index ?var))
+					 (printout t ?linea crlf)
+	 )
+	 (bind ?respuesta (pregunta-numerica "Escoge una opcion:" 1 (length$ ?valores-posibles)))
+ ?respuesta
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defrule initialRule "Regla inicial"
    	(declare (salience 10))
@@ -1804,7 +1893,95 @@
      	(printout t"          Busqueda de piso                              " crlf)
    	(printout t"----------------------------------------------------------" crlf)
      	(printout t crlf)
-   	(printout t"¡Bienvenido! A continuacion se le formularan una serie de preguntas para poder recomendarle un piso adecuada a sus preferencias." crlf)
+   	(printout t"Â¡Bienvenido! A continuacion se le formularan una serie de preguntas para poder recomendarle un piso adecuada a sus preferencias." crlf)
    	(printout t crlf)
+    (focus recopilacion-usuario)
 
 )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;Regla que establece el nombre del usuario
+(defrule recopilacion-usuario::preguntaNombre "Establece el nombre del usuario"
+  (not (Usuario))
+  =>
+  (bind ?name (pregunta-general "Cual es su nombre? "))
+	(assert (Usuario (nombre ?name)))
+)
+
+;;;Regla que establece la edad del usuario
+(defrule recopilacion-usuario::establecer-edad "Establece la edad del usuario"
+	?g <- (Usuario (edad ?edad))
+	(test (< ?edad 0))
+	=>
+	(bind ?edad (pregunta-numerica "¿Cual es su edad? " 0 100))
+	(modify ?g (edad ?edad))
+)
+
+
+;;;Regla que establece la tipologia del usuario
+(defrule recopilacion-usuario::establecer-tipo "establece la tipologia del usuario"
+	?g <-(Usuario (tipo ?tipo))
+	(test (eq ?tipo desconocido))
+	=>
+	(bind ?i (pregunta-indice "De quin tipo es el grup per a aquest viatge que vols fer?" (create$ "Parella" "Familia" "Grup d'amics" "Grup de feina" "Individu")))
+	(if (eq ?i 1)then
+		(modify ?g (tipo pareja) )
+	)
+	else (if (eq ?i 2)then
+		(modify ?g (tipo familia))
+	)
+	else (if (eq ?i 3)then
+		(modify ?g (tipo grup_amics))
+	)
+	else (if (eq ?i 4)then
+		(modify ?g (tipo grup_feina))
+	)
+	else (if (eq ?i 5)then
+		(modify ?g (tipo individuo) )
+	)
+)
+
+;;;Regla que establece la edad del usuario
+(defrule recopilacion-usuario::establecer-dias "Establir durant quants dies es vol viatjar"
+	?g <- (Usuario (dies_viat ?dies))
+	(test (< ?dies 0))
+	=>
+	(bind ?dies (pregunta-numerica "Quants dies vols que duri el viatge? " 1 20))
+	(modify ?g (dies_viat ?dies))
+)
+
+
+;;;Regla que establece la edad del usuario
+(defrule recopilacion-usuario::establecer-pasta "Establir quanta pasta es vol gastar"
+	?g <- (Usuario (diners ?d))
+	(test (< ?d 0))
+	=>
+	(bind ?d (pregunta-numerica "Quants diners et vols gastar? " 100 5000))
+	(modify ?g (diners ?d))
+)
+
+;;;Regla que establece la tipologia del usuario
+(defrule recopilacion-usuario::establecer-tipoviaje "establece la tipologia del viaje"
+	?g <-(Usuario (tipov ?tipo))
+	(test (eq ?tipo desconocido))
+	=>
+	(bind ?i (pregunta-indice "Com t'agradaria que fos aquest viatge'?" (create$ "Cultural" "d'Esports" "Romantic" "Relaxant" "Es un viatje de feina")))
+	(if (eq ?i 1)then
+		(modify ?g (tipov cultural) )
+	)
+	else (if (eq ?i 2)then
+		(modify ?g (tipov esports))
+	)
+	else (if (eq ?i 3)then
+		(modify ?g (tipov romantic))
+	)
+	else (if (eq ?i 4)then
+		(modify ?g (tipov relaxant))
+	)
+	else (if (eq ?i 5)then
+		(modify ?g (tipov feina) )
+	)
+)
+
+
