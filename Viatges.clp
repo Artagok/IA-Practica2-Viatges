@@ -1875,7 +1875,7 @@
 
 ;;; Funcion para hacer una pregunta de tipo si/no
 (deffunction MAIN::pregunta-si-no (?question)
-   (bind ?response (pregunta-opciones ?question S N))
+   (bind ?response (pregunta-opciones ?question s n))
    (if (eq ?response S)
        then TRUE
        else FALSE)
@@ -1900,7 +1900,7 @@
 					 (bind ?linea (format nil "  %d. %s" ?var-index ?var))
 					 (printout t ?linea crlf)
 	 )
-	 (bind ?respuesta (pregunta-numerica "Escull una opció:" 1 (length$ ?valores-posibles)))
+	 (bind ?respuesta (pregunta-numerica "Escull una opcio:" 1 (length$ ?valores-posibles)))
  ?respuesta
 )
 
@@ -1920,7 +1920,7 @@
     (printout t crlf)
    	(printout t "Benvingut al Sistema Expert en Viatges!")
    	(printout t crlf)
-    (printout t "Se li formularan unes preguntes per conèixer millor el seu perfil i preparar un viatge que s'adapti el màxim possible als seus gustos i necessitats")
+    (printout t "Se li formularan unes preguntes per coneixer millor el seu perfil i preparar un viatge que s.adapti el maxim possible als seus gustos i necessitats")
     (printout t crlf)
     (focus recopilacion-usuario)
 
@@ -1934,7 +1934,7 @@
 (defrule recopilacion-usuario::preguntaNombre "Estableix el nom d'usuari"
   (not (Usuario))
   =>
-  (bind ?name (pregunta-general "Quin és el seu nom? "))
+  (bind ?name (pregunta-general "Quin es el seu nom? "))
 	(assert (Usuario (nombre ?name)))
 )
 
@@ -1943,7 +1943,7 @@
 	?g <- (Usuario (edad ?edad))
 	(test (< ?edad 0))
 	=>
-	(bind ?edad (pregunta-numerica "Quina edat té? " 0 100))
+	(bind ?edad (pregunta-numerica "Quina edat te? " 0 100))
 	(modify ?g (edad ?edad))
 )
 
@@ -1953,7 +1953,7 @@
 	?g <-(Usuario (tipo ?tipo))
 	(test (eq ?tipo desconocido))
 	=>
-	(bind ?i (pregunta-indice "De quin tipus és el grup que realitzarà el viatge?" (create$ "Parella" "Família" "Grup d'amics" "Grup de feina" "Individual")))
+	(bind ?i (pregunta-indice "De quin tipus es el grup que realitzara el viatge?" (create$ "Parella" "Familia" "Grup d.amics" "Grup de feina" "Individual")))
 	(if (eq ?i 1)then
 		(modify ?g (tipo pareja) )
 	)
@@ -1995,7 +1995,7 @@
 	?g <-(Usuario (tipov ?tipo))
 	(test (eq ?tipo desconocido))
 	=>
-	(bind ?i (pregunta-indice "Com li agradaria que fos aquest viatge?" (create$ "Cultural" "Esports" "Romàntic" "Relaxant" "És un viatje per feina" "Festa/Diversió")))
+	(bind ?i (pregunta-indice "Com li agradaria que fos aquest viatge?" (create$ "Cultural" "Esports" "Romantic" "Relaxant" "Es un viatje per feina" "Festa/Diversio")))
 	(if (eq ?i 1)then   
 		(modify ?g (tipov cultural) )
 	)
@@ -2021,7 +2021,7 @@
 	?g <- (Usuario (posee_vehiculo ?v))
 	(test (eq ?v desconocido))
 	=>
-	(bind ?v (pregunta-si-no "Utilitzarà el seu propi vehícle per desplaçar-se? [S = Sí | N = No] " ))
+	(bind ?v (pregunta-si-no "Utilitzara el seu propi vehícle per desplacar-se? [s = Si | n = No] " ))
 	(modify ?g (posee_vehiculo ?v))
 )
 
@@ -2086,9 +2086,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ENSENYA RESULTATS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
-
-
