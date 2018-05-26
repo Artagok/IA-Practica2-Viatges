@@ -1,0 +1,18 @@
+;;;;;;;;;OBLIGATORIES;;;;;;;;;;;
+
+algun discapacitat en el grup?
+a on t'agradaria allotjar-te?
+
+
+;;;;;;;;CONDICIONALS;;;;;;;;;;;;
+
+si no vahicle --> quins transports t'agradaria evitar?
+cultural/romantic/feina --> algun vegetaria? --> t'agradaria fer un tasteig
+esports--> quin esport prefereixes
+cultural --> quins museus volen
+diversio --> quin tipus de musica t'agrada
+relax --> poble o rural --> casa o camping o hostal o ..
+familia --> viatjen nens?
+hotel --> min max estrelles
+camping --> quins serveis son indispensables?
+hostal --> quins serveis son indispensables?
