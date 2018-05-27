@@ -1796,7 +1796,35 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Modulos
+(defclass Recomendacion ;--------------------------
+    (is-a USER)
+    (role concrete)
+    (slot contenido
+      (type INSTANCE)
+      (create-accessor read-write))
+    (slot puntuacion
+      (type INTEGER)
+      (default 100)
+      (create-accessor read-write))
+    (multislot justificaciones
+      (type STRING)
+      (create-accessor read-write))
+    (slot fallos
+      (type INTEGER)
+      (default 0)
+      (create-accessor read-write))
+  )
+  
+  (defclass RecomendacionA ;--------------------------
+    (is-a USER)
+    (role concrete)
+    (slot contenido
+      (type INSTANCE)
+      (create-accessor read-write))
+  )
+  
+  
+;;; Modulos ;;;
 
 ;;;modulo MAIN
 (defmodule MAIN (export ?ALL))
@@ -1838,6 +1866,43 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;Template para una lista de recomendaciones sin orden ------------------------------------
+(deftemplate MAIN::lista-rec-desordenada
+	(multislot recomendaciones (type INSTANCE))
+)
+
+
+;;;defmessage-handler para imprimir la informacion de una vivienda --------------------------------
+(defmessage-handler MAIN::Poblacio imprimir ()
+  (printout t "Nom ciutat: " ?self:nomPoblacio)
+)
+
+
+;;;defmessage-handler para imprimir recomendaciones ---------------------------------------
+(defmessage-handler MAIN::Recomendacion imprimir ()
+ (printout t (send ?self:contenido imprimir))
+)
+
+;;;;;;;;;;;;;
+
+
+;;;Template para una lista de recomendaciones sin orden ------------------------------------
+(deftemplate MAIN::listaA
+	(multislot recomendacionesA (type INSTANCE))
+)
+
+;;;defmessage-handler para imprimir la informacion de una vivienda --------------------------------
+(defmessage-handler MAIN::Activitat imprimir ()
+  (printout t "Nom Activitat: " ?self:nomActivitat)
+)
+
+
+;;;defmessage-handler para imprimir recomendaciones ---------------------------------------
+(defmessage-handler MAIN::RecomendacionA imprimir ()
+ (printout t (send ?self:contenido imprimir))
+)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (deftemplate MAIN::Usuario
@@ -1852,6 +1917,12 @@
 	(slot allotjament (type SYMBOL)(default desconocido))
 )
 
+
+;;;Template para las preferencias del usuario
+(deftemplate MAIN::preferencias_usuario
+	(multislot preferencias_vivienda (type SYMBOL))
+	(multislot distancia_servicio (type SYMBOL))
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;UTILS
@@ -1904,6 +1975,30 @@
 	 )
 	 (bind ?respuesta (pregunta-numerica "Escull una opcio:" 1 (length$ ?valores-posibles)))
  ?respuesta
+)
+
+;;; Funcion para hacer una pregunta multi-respuesta con indices
+(deffunction MAIN::pregunta-multirespuesta (?pregunta $?valores-posibles)
+		(bind ?linea (format nil "%s" ?pregunta))
+		(printout t ?linea crlf)
+		(progn$ (?var ?valores-posibles)
+						(bind ?linea (format nil "  %d. %s" ?var-index ?var))
+						(printout t ?linea crlf)
+		)
+		(format t "%s" "Indica los numeros referentes a las preferencias separados por un espacio: ")
+		(bind ?resp (readline))
+		(bind ?numeros (str-explode ?resp))
+		(bind $?lista (create$))
+		(progn$ (?var ?numeros)
+				(if (and (integerp ?var) (and (>= ?var 0) (<= ?var (length$ ?valores-posibles))))
+						then
+								(if (not (member$ ?var ?lista))
+										then (bind ?lista (insert$ ?lista (+ (length$ ?lista) 1) ?var))
+								)
+				)
+		)
+		(if (or(member$ 0 ?lista)(= (length$ ?lista) 0)) then (bind ?lista (create$ )))
+		?lista
 )
 
 
@@ -2066,9 +2161,38 @@
 
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;PREFERENCIES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;Regla que establece el precio maximo a gastar del usuario
+(defrule recopilacion-preferencias::establecer-preciomaximo "Establece el precio maximo a gastar del usuario"
+	(not (preferencias_usuario))
+	=>
+	(assert (servicios_pref ask))
+)
+
+;;;Regla que establece los servicios que el usuario quiere que esten cerca
+(defrule recopilacion-preferencias::establecer-distancia_servicio "Establece los servicios que el usuario quiere que esten cerca"
+    ?hecho <- (servicios_pref ask)
+    (printout t "estadintredelaputameradeprefbaesij" crlf)
+	?pref <- (preferencias_usuario)
+	=>
+	(bind $?nom-servicios (create$ Bus Metro Tren colegio Centro_de_salud Estadio_de_deportes Ocio_nocturno Supermercado Zona_comercial Zona_verde Restaurante Iglesia Parque_de_atracciones ))
+	(bind $?escogido (pregunta-multirespuesta "Escoja los servicios que tienen que estar cerca (o 0 en el caso que no haya ninguno): " $?nom-servicios))
+	(assert (servicios_pref TRUE))
+    (bind $?respuesta (create$ ))
+	(loop-for-count (?i 1 (length$ $?escogido)) do
+		(bind ?curr-index (nth$ ?i $?escogido))
+        (if (= ?curr-index 0) then (assert (servicios_pref FALSE)))
+		(bind ?curr-servicio (nth$ ?curr-index $?nom-servicios))
+		(bind $?respuesta(insert$ $?respuesta (+ (length$ $?respuesta) 1) ?curr-servicio))
+	)
+	(retract ?hecho)
+    (modify ?pref (distancia_servicio $?respuesta))
+)
 
 
 ;;;Regla para pasar al modulo de procesado
@@ -2091,6 +2215,22 @@
 	(printout t "Processant dades... Esperi un moment siusplau." crlf)
 )
 
+;;;Regla que añade viviendas a la clase auxiliar-------------------------------------
+(defrule procesado::anadir-poblacions "se anaden las poblacions a la clase auxiliar"
+	(declare (salience 10))
+	?pob<-(object (is-a Poblacio))
+	=>
+	(make-instance (gensym) of Recomendacion (contenido ?pob))
+)
+
+;;;Regla que añade viviendas a la clase auxiliar-------------------------------------
+(defrule procesado::anadir-activitats "se anaden las poblacions a la clase auxiliar"
+	(declare (salience 10))
+	?act<-(object (is-a Activitat))
+	=>
+	(make-instance (gensym) of RecomendacionA (contenido ?act))
+)
+
 
 ;;;Regla que cambia de modulo para generar la solucion
 (defrule procesado::genera_solucion "cambia de modulo"
@@ -2105,6 +2245,39 @@
 ;;;GENERAR SOLUCIO
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;Regla que crea una lista de recomendaciones-------------------------------
+(defrule generacion_sol::crea-lista-recomendaciones "Se crea una lista de recomendaciones para ordenarlas"
+	(not (lista-rec-desordenada))
+	=>
+	(assert (lista-rec-desordenada))
+)
+
+;;;Regla que crea una lista de recomendaciones-------------------------------
+(defrule generacion_sol::crea-listaA "Se crea una lista de recomendaciones para ordenarlas"
+	(not (listaA))
+	=>
+	(assert (listaA))
+)
+
+;;;Regla que añade recomendaciones a una lista desordenada de recomendaciones------------------------------
+(defrule generacion_sol::crea-lista-desordenada "Anade una recomendacion a la lista de recomendaciones"
+		(declare (salience 10))
+		?rec <- (object (is-a Recomendacion))
+		?hecho <- (lista-rec-desordenada (recomendaciones $?lista))
+		(test (not (member$ ?rec $?lista)))
+			=>
+		(modify ?hecho (recomendaciones $?lista ?rec))
+	)
+
+;;;Regla que añade recomendaciones a una lista desordenada de recomendaciones------------------------------
+(defrule generacion_sol::listaA "Anade una recomendacion a la lista de recomendaciones"
+		(declare (salience 10))
+		?act <- (object (is-a RecomendacionA))
+		?hecho <- (listaA (recomendacionesA $?lista))
+		(test (not (member$ ?act $?lista)))
+			=>
+		(modify ?hecho (recomendacionesA $?lista ?act))
+	)
 
 ;;;Regla para pasar a mostrar resultados al usuario
 	(defrule generacion_sol::muestra_resultado
@@ -2114,6 +2287,36 @@
 		)
 		
 		
+		
+		
+		
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ENSENYA RESULTATS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;Regla que muestra los resultados por pantalla al usuario, llaman al defmessage imprimir de recomendacion ---------------------
+(defrule mostrar_resultados::muestra
+	(lista-rec-desordenada (recomendaciones $?lrd))
+	(listaA (recomendacionesA $?lrdA))
+	(Usuario (nombre ?nombre))
+	(not (final))
+		=>
+	(printout t "***************************************************" crlf)
+	(format t "Aquestes son les ciutats que et poden cundir, %s" ?nombre )
+	(printout t crlf)
+	(progn$ (?r $?lrd)
+		(printout t (send ?r imprimir))
+		(printout t crlf)
+		(printout t crlf)
+	)
+	(format t "i aquestes les activitats que et podrien cundir, %s" ?nombre )
+	(printout t crlf)
+	(progn$ (?rA $?lrdA)
+		(printout t (send ?rA imprimir))
+		(printout t crlf)
+		(printout t crlf)
+	)
+	(assert (final))
+)
+
