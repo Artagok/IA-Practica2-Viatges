@@ -1848,6 +1848,8 @@
 	(slot diners (type INTEGER)(default -1))
 	(slot tipov (type SYMBOL)(default desconocido))
 	(slot posee_vehiculo (type SYMBOL)(default desconocido))
+	(slot discapacitat (type SYMBOL)(default desconocido))
+	(slot allotjament (type SYMBOL)(default desconocido))
 )
 
 
@@ -2023,6 +2025,35 @@
 	=>
 	(bind ?v (pregunta-si-no "Utilitzara el seu propi vehícle per desplacar-se? [s = Si | n = No] " ))
 	(modify ?g (posee_vehiculo ?v))
+)
+
+
+(defrule recopilacion-usuario::estabecer-trato-especial "Estableix si hi ha algun discapacitat en els viatjants"
+	?g <- (Usuario (discapacitat ?v))
+	(test (eq ?v desconocido))
+	=>
+	(bind ?v (pregunta-si-no "Hi ha algun viatjant amb problemes de mobilitat? [s = Si | n = No] " ))
+	(modify ?g (discapacitat ?v))
+)
+
+
+(defrule recopilacion-usuario::establecer-tipo-alojamiento "Estableix el tipus d'allotjament"
+	?g <-(Usuario (allotjament ?tipo))
+	(test (eq ?tipo desconocido))
+	=>
+	(bind ?i (pregunta-indice "A on li agradaria allotjarse durant aquest viatje?" (create$ "Hotel" "Camping" "Hostal" "No es important")))
+	(if (eq ?i 1)then   
+		(modify ?g (allotjament hotel) )
+	)
+	else (if (eq ?i 2)then
+		(modify ?g (allotjament camping))
+	)
+	else (if (eq ?i 3)then
+		(modify ?g (allotjament hostal))
+	)
+	else (if (eq ?i 4)then
+		(modify ?g (allotjament noimporta))
+	)
 )
 
 
