@@ -1,9 +1,3 @@
-; Fri May 25 10:22:38 CEST 2018
-; 
-;+ (version "3.5")
-;+ (build "Build 663")
-
-
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
@@ -802,13 +796,6 @@
 
 
 (definstances instancies
-
-
-; Fri May 25 10:22:38 CEST 2018
-; 
-;+ (version "3.5")
-;+ (build "Build 663")
-
 
 ([Viatges_Class0] of  Museu
 
@@ -2177,8 +2164,8 @@
 ;;;PREFERENCIES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;Regla que establece el precio maximo a gastar del usuario
-(defrule recopilacion-preferencias::establecer-preciomaximo "Establece el precio maximo a gastar del usuario"
+;;;Regla que estableix quants dies es vol viatjar
+(defrule recopilacion-preferencias::establecer-preciomaximo "Estableix quants dies es vol viatjar"
 	(not (preferencias_usuario))
 	=>
 	(printout t crlf)
@@ -2218,6 +2205,7 @@
 	)
 )
 
+;;;Regla que estableix quin tipus de transport es fara servir
 (defrule recopilacion-preferencias::establecer-transporte "Estableix el tipus de transport"
     ?g <-(preferencias_usuario (transporte ?tipo))
 	(test (eq ?tipo desconocido))
@@ -2238,7 +2226,7 @@
 )
 
 
-;;;Regla para pasar al modulo de procesado
+;;;Regla per passar al modul de processat
 (defrule recopilacion-preferencias::inicia-procesado "Da por acabada la fase de preguntar al usuario"
 	(declare (salience -10))
 	=>
@@ -2251,7 +2239,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;Regla que inicia el modul de procesat
+;;;Regla que inicia el modul de processat
 (defrule procesado::inicio
 	(declare (salience 10))
 	=>
