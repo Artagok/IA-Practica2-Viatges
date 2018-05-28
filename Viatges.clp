@@ -1796,7 +1796,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defclass Recomendacion ;--------------------------
+(defclass Recomendacion 
     (is-a USER)
     (role concrete)
     (slot contenido
@@ -1804,7 +1804,7 @@
       (create-accessor read-write))
   )
   
-(defclass RecomendacionA ;--------------------------
+(defclass RecomendacionA
     (is-a USER)
     (role concrete)
     (slot contenido
@@ -1812,7 +1812,7 @@
       (create-accessor read-write))
   )
   
-(defclass RecomendacionAllot ;--------------------------
+(defclass RecomendacionAllot 
     (is-a USER)
     (role concrete)
     (slot contenido
@@ -1820,7 +1820,7 @@
       (create-accessor read-write))
 )
   
-(defclass RecomendacionT ;--------------------------
+(defclass RecomendacionT 
     (is-a USER)
     (role concrete)
     (slot contenido
@@ -2197,7 +2197,7 @@
 	(modify ?g (vegetaria ?ve))
 )
 
-;;;
+;;;Estableix museu
 (defrule recopilacion-preferencias::establecer-museo "Estableix el tipus de museu"
 	?g <- (preferencias_usuario (tipom ?tm))
 	(Usuario (tipov ?tipo))
@@ -2304,35 +2304,35 @@
 ;;;GENERAR SOLUCIO
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;Regla que crea una lista de Poblacions
+;;;Regla que crea una lista de Recomenacions de Poblacions
 (defrule generacion_sol::crea-lista-recomendaciones "Es crea una llista de Poblacions"
 	(not (listaP))
 	=>
 	(assert (listaP))
 )
 
-;;;Regla que es crea una llista de Activitats
+;;;Regla que es crea una llista de Recomenacions d.Activitats
 (defrule generacion_sol::crea-listaA "Es crea una llista de Activitats"
 	(not (listaA))
 	=>
 	(assert (listaA))
 )
 
-;;;Regla que es crea una llista Allotjaments
+;;;Regla que es crea una llista de Recomenacions d.Allotjaments
 (defrule generacion_sol::crea-listaAllot "Es crea una llista Allotjaments"
 	(not (listaAllot))
 	=>
 	(assert (listaAllot))
 )
 
-;;;Regla que es crea una llista de Transports
+;;;Regla que es crea una llista de Recomenacions de Transports
 (defrule generacion_sol::crea-listaT "Es crea una llista de Transports"
 	(not (listaT))
 	=>
 	(assert (listaT))
 )
 
-(defrule generacion_sol::crea-lista-desordenada 
+(defrule generacion_sol::listaPoblacions 
 		(declare (salience 10))
 		?rec <- (object (is-a Recomendacion))
 		?hecho <- (listaP (recomendaciones $?lista))
