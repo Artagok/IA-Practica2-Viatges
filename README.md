@@ -2,7 +2,4 @@
 * Víctor Vallejo
 * Aleix Dalmau 
 * Pau Núñez
-
-### Cost del transport és cada 10km
-### Perillositat 1-5
-### Dificultat 1-5
+### **CLIPS és una M E R D A**
