@@ -2,4 +2,3 @@
 * Víctor Vallejo
 * Aleix Dalmau 
 * Pau Núñez
-### **CLIPS és una M E R D A**
